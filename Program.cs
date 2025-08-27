@@ -11,6 +11,16 @@ using TaskManager.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração global de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+    );
+});
+
 // Configuração do banco de dados
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
@@ -59,13 +69,18 @@ var rabbitConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqConf
 builder.Services.AddSingleton(rabbitConfig);
 builder.Services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
 
+
 var app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Ativa o CORS global
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
