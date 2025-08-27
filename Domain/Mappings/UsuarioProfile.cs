@@ -9,8 +9,7 @@ namespace TaskManager.Mappings
         public UsuarioProfile()
         {
             CreateMap<Usuario, UsuarioDto>();
-            CreateMap<CreateUsuarioDto, Usuario>();
-            CreateMap<UpdateUsuarioDto, Usuario>();
+            CreateMap<UsuarioDto, Usuario>();
         }
     }
 }

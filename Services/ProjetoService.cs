@@ -43,7 +43,6 @@ namespace TaskManager.Services
                     throw new InvalidOperationException("Já existe um projeto com este nome.");
                 }
 
-                // Valida se o UsuarioId existe
                 var usuarioExiste = await _context.Usuarios.AnyAsync(u => u.UsuarioId == projeto.UsuarioId);
                 if (!usuarioExiste)
                 {

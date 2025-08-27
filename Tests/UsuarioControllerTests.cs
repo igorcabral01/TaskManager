@@ -24,7 +24,7 @@ namespace TaskManager.Tests
         public void Deve_Criar_Usuario_Valido()
         {
             var controller = GetController();
-            var dto = new CreateUsuarioDto { PrimeiroNome = "João", UltimoNome = "Silva", Email = "joao@teste.com", Senha = "123456", Perfil = "User" };
+            var dto = new UsuarioDto { PrimeiroNome = "João", UltimoNome = "Silva", Email = "joao@teste.com", Senha = "123456", Perfil = "User" };
             var resultado = controller.Criar(dto).Result;
             Assert.IsType<OkObjectResult>(resultado);
         }
@@ -33,7 +33,7 @@ namespace TaskManager.Tests
         public void Deve_Retornar_BadRequest_Usuario_Invalido()
         {
             var controller = GetController();
-            var dto = new CreateUsuarioDto { PrimeiroNome = "", UltimoNome = "", Email = "", Senha = "", Perfil = "User" };
+            var dto = new UsuarioDto { PrimeiroNome = "", UltimoNome = "", Email = "", Perfil = "User" };
             var resultado = controller.Criar(dto).Result;
             Assert.IsType<BadRequestObjectResult>(resultado);
         }
@@ -42,7 +42,7 @@ namespace TaskManager.Tests
         public void Deve_Atualizar_Usuario_Valido()
         {
             var controller = GetController();
-            var dto = new UpdateUsuarioDto { PrimeiroNome = "João", UltimoNome = "Silva", Email = "joao@teste.com", Perfil = "User" };
+            var dto = new UsuarioDto { PrimeiroNome = "João", UltimoNome = "Silva", Email = "joao@teste.com", Perfil = "User" };
             var resultado = controller.Atualizar(1, dto).Result;
             Assert.IsType<OkObjectResult>(resultado);
         }

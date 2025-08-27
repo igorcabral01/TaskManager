@@ -32,7 +32,7 @@ namespace TaskManager.Services
 
         public async Task<Usuario> AtualizarAsync(int id, Usuario usuario)
         {
-            var existente = await _context.Usuarios.FindAsync(id);
+            var existente = await ObterPorIdAsync(id);
             if (existente == null)
                 throw new Exception("Usuário não encontrado.");
 
@@ -51,7 +51,7 @@ namespace TaskManager.Services
 
         public async Task DeletarAsync(int id)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
+            var usuario = await ObterPorIdAsync(id);
             if (usuario == null)
                 throw new Exception("Usuário não encontrado.");
             _context.Usuarios.Remove(usuario);

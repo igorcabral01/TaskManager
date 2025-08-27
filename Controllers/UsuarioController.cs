@@ -42,7 +42,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Criar([FromBody] CreateUsuarioDto dto)
+        public async Task<IActionResult> Criar([FromBody] UsuarioDto dto)
         {
             var usuario = _mapper.Map<Usuario>(dto);
             var validacao = _validator.Validate(usuario);
@@ -55,7 +55,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Atualizar(int id, [FromBody] UpdateUsuarioDto dto)
+        public async Task<IActionResult> Atualizar(int id, [FromBody] UsuarioDto dto)
         {
             var usuario = _mapper.Map<Usuario>(dto);
             var validacao = _validator.Validate(usuario);
