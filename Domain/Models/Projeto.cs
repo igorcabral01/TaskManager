@@ -1,16 +1,14 @@
-using System;
-using System.Collections.Generic;
 
 namespace TaskManager.Models
 {
     public class Projeto : EntidadeBase
     {
-        public Guid ProjetoId { get; set; }
+        public Guid ProjetoId { get; set; } = Guid.NewGuid();
         public string? Nome { get; set; }
         public string? Descricao { get; set; }
-        public DateTime? DataInicio { get; set; }
+        public DateTime? DataInicio { get; set; } = DateTime.Now;
         public DateTime? DataFim { get; set; }
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true;
         public Guid UsuarioId { get; set; }
         public string? Cor { get; set; }
 

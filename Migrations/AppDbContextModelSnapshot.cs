@@ -17,69 +17,61 @@ namespace TaskManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "8.0.19")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("TaskManager.Models.Notificacao", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("NotificacaoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AtualizadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CriadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAtualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataLeitura")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("Lida")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Mensagem")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("ProjetoRelacionadoId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ProjetoRelacionadoId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ProjetoRelacionadoProjetoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("TarefaRelacionadaId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TarefaRelacionadaTarefaId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("TarefaRelacionadaId")
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UrlAcao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("char(36)");
 
-                    b.HasKey("Id");
+                    b.HasKey("NotificacaoId");
 
-                    b.HasIndex("ProjetoRelacionadoProjetoId");
+                    b.HasIndex("ProjetoRelacionadoId");
 
-                    b.HasIndex("TarefaRelacionadaTarefaId");
+                    b.HasIndex("TarefaRelacionadaId");
 
                     b.HasIndex("UsuarioId");
 
@@ -90,47 +82,44 @@ namespace TaskManager.Migrations
                 {
                     b.Property<Guid>("ProjetoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("AtualizadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Cor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CriadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAtualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataFim")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInicio")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("UsuarioId1")
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("ProjetoId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Projetos");
                 });
@@ -139,40 +128,37 @@ namespace TaskManager.Migrations
                 {
                     b.Property<Guid>("ProjetoUsuarioId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AtualizadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CriadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAtualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataEntrada")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("ProjetoId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Proprietario")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("UsuarioId1")
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("ProjetoUsuarioId");
 
                     b.HasIndex("ProjetoId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("ProjetosUsuarios");
                 });
@@ -181,55 +167,55 @@ namespace TaskManager.Migrations
                 {
                     b.Property<Guid>("TarefaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int?>("AtribuidaParaId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("AtribuidaParaId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AtualizadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("CriadaPorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CriadaPorId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("CriadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAtualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataConclusao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataVencimento")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<double?>("HorasEstimadas")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double?>("HorasReais")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<string>("Observacoes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Prioridade")
                         .HasColumnType("int");
 
                     b.Property<Guid>("ProjetoId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("TarefaId");
 
@@ -244,49 +230,52 @@ namespace TaskManager.Migrations
 
             modelBuilder.Entity("TaskManager.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("UsuarioId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("AtualizadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CriadoPor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataAtualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("Perfil")
                         .HasColumnType("int");
 
                     b.Property<string>("PrimeiroNome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("SenhaHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("UltimoLogin")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UltimoNome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("UrlImagemPerfil")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UsuarioId");
 
                     b.ToTable("Usuarios");
                 });
@@ -295,11 +284,11 @@ namespace TaskManager.Migrations
                 {
                     b.HasOne("TaskManager.Models.Projeto", "ProjetoRelacionado")
                         .WithMany()
-                        .HasForeignKey("ProjetoRelacionadoProjetoId");
+                        .HasForeignKey("ProjetoRelacionadoId");
 
                     b.HasOne("TaskManager.Models.Tarefa", "TarefaRelacionada")
                         .WithMany()
-                        .HasForeignKey("TarefaRelacionadaTarefaId");
+                        .HasForeignKey("TarefaRelacionadaId");
 
                     b.HasOne("TaskManager.Models.Usuario", "Usuario")
                         .WithMany("Notificacoes")
@@ -318,7 +307,9 @@ namespace TaskManager.Migrations
                 {
                     b.HasOne("TaskManager.Models.Usuario", "Usuario")
                         .WithMany("ProjetosCriados")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });
@@ -333,7 +324,9 @@ namespace TaskManager.Migrations
 
                     b.HasOne("TaskManager.Models.Usuario", "Usuario")
                         .WithMany("ProjetosUsuarios")
-                        .HasForeignKey("UsuarioId1");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Projeto");
 

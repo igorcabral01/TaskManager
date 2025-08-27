@@ -14,8 +14,8 @@ namespace TaskManager.Models
         public DateTime? DataVencimento { get; set; }
         public DateTime? DataConclusao { get; set; }
         public Guid ProjetoId { get; set; }
-        public int? AtribuidaParaId { get; set; }
-        public int CriadaPorId { get; set; }
+        public Guid? AtribuidaParaId { get; set; }
+        public Guid CriadaPorId { get; set; }
         public double? HorasEstimadas { get; set; }
         public double? HorasReais { get; set; }
         public string? Observacoes { get; set; }

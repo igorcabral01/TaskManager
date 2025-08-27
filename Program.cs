@@ -1,8 +1,13 @@
 using System.Text;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Hubs;
 using TaskManager.Models;
+using TaskManager.Services;
+using TaskManager.Validations;
+using TaskManager.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +42,23 @@ builder.Services.AddControllers();
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+var serviceAssembly = Assembly.GetExecutingAssembly();
+builder.Services.Scan(scan => scan
+    .FromAssemblies(serviceAssembly)
+    .AddClasses(classes => classes.InNamespaceOf<ProjetoService>())
+    .AsSelfWithInterfaces()
+    .WithScopedLifetime()
+    .AddClasses(classes => classes.InNamespaceOf<ProjetoValidator>())
+    .AsSelfWithInterfaces()
+    .WithScopedLifetime()
+);
+
+var rabbitConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqConfig>() ?? new RabbitMqConfig();
+builder.Services.AddSingleton(rabbitConfig);
+builder.Services.AddSingleton<RabbitMqConnectionFactory>();
+builder.Services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
 
 var app = builder.Build();
 

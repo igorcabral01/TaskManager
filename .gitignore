@@ -1,0 +1,18 @@
+# Build outputs
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vs/
+# VS Code
+.vscode/
+# Rider
+.idea/
+# Test results
+TestResults/
+# EF Migrations
+Migrations/*Designer.cs
+# RabbitMQ
+*.mq

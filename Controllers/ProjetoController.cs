@@ -1,4 +1,7 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.DTOs.Project;
 using TaskManager.Models;
 using TaskManager.Services;
 using TaskManager.Validations;
@@ -11,60 +14,67 @@ namespace TaskManager.Controllers
     {
         private readonly ProjetoService _projetoService;
         private readonly ProjetoValidator _validator;
+        private readonly IMapper _mapper;
 
-        public ProjetoController()
+        public ProjetoController(ProjetoService projetoService, ProjetoValidator validator, IMapper mapper)
         {
-            _projetoService = new ProjetoService();
-            _validator = new ProjetoValidator();
+            _projetoService = projetoService;
+            _validator = validator;
+            _mapper = mapper;  
         }
 
         [HttpGet]
-        public IActionResult Listar()
+        public async Task<IActionResult> Listar()
         {
-            // Exemplo: Retornar lista estática (substitua por consulta ao banco)
-            var projetos = new List<Projeto>();
+            var projetos = await _projetoService.ObterTodosProjetosAsync();
             return Ok(projetos);
         }
 
         [HttpGet("{id}")]
-        public IActionResult BuscarPorId(int id)
+        public async Task<IActionResult> BuscarPorId(int id)
         {
-            // Exemplo: Retornar projeto estático (substitua por consulta ao banco)
-            Projeto projeto = null;
+
+            var projeto = await _projetoService.ObterProjetoPorIdAsync(id);
             if (projeto == null)
                 return NotFound("Projeto não encontrado.");
             return Ok(projeto);
         }
 
         [HttpPost]
-        public IActionResult Criar([FromBody] Projeto projeto)
+       // [Authorize]
+        public async Task<IActionResult> Criar([FromBody] ProjetoDto projeto)
         {
-            var validacao = _validator.Validate(projeto);
+            var novoProjeto = _mapper.Map<Projeto>(projeto);
+            var validacao = _validator.Validate(novoProjeto);
             if (!validacao.IsValid)
                 return BadRequest(validacao.Errors);
-
-            var novoProjeto = _projetoService.CriarProjeto(projeto);
+            
+            await _projetoService.CriarProjetoAsync(novoProjeto);
             return Ok(novoProjeto);
         }
 
-        [HttpPut]
-        public IActionResult Atualizar([FromBody] Projeto projeto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Atualizar(Guid id, [FromBody] ProjetoDto projeto)
         {
-            var validacao = _validator.Validate(projeto);
+            var novoProjeto = _mapper.Map<Projeto>(projeto);
+            var validacao = _validator.Validate(novoProjeto);
+
             if (!validacao.IsValid)
                 return BadRequest(validacao.Errors);
+            await _projetoService.AtualizarProjetoAsync(id,novoProjeto);
 
-            var projetoAtualizado = _projetoService.AtualizarProjeto(projeto);
-            return Ok(projetoAtualizado);
+            return Ok(novoProjeto);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Excluir(int id)
+        public async Task<IActionResult> Excluir(int id)
         {
-            // Exemplo: Excluir projeto estático (substitua por lógica de exclusão)
-            bool removido = false;
-            if (!removido)
-                return NotFound("Projeto não encontrado para exclusão.");
+            var projeto = await _projetoService.ObterProjetoPorIdAsync(id);
+
+            if (projeto == null)
+                return NotFound("Projeto não encontrado.");
+            await _projetoService.DeletarProjetoAsync(id);
+
             return NoContent();
         }
     }

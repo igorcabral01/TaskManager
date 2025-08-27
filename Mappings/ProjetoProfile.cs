@@ -8,9 +8,9 @@ namespace TaskManager.Mappings
     {
         public ProjetoProfile()
         {
+            CreateMap<ProjetoDto, Projeto>();
             CreateMap<Projeto, ProjetoDto>();
-            CreateMap<CreateProjetoDto, Projeto>();
-            CreateMap<UpdateProjetoDto, Projeto>();
+
         }
     }
 }

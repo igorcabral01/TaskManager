@@ -13,7 +13,7 @@ namespace TaskManager.Controllers
     public class AutenticacaoController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly string _jwtSecret = "sua-chave-secreta-aqui"; // Use uma chave forte em produção
+        private readonly string _jwtSecret = "e2a1c7b8f9d34a1e8b7c2d9f4a6b3c1d"; 
 
         public AutenticacaoController(AppDbContext context)
         {
@@ -35,8 +35,8 @@ namespace TaskManager.Controllers
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.UsuarioId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email!),
                 new Claim("perfil", usuario.Perfil.ToString())
             };
 
@@ -53,7 +53,7 @@ namespace TaskManager.Controllers
 
     public class LoginRequest
     {
-        public string Email { get; set; }
-        public string Senha { get; set; }
+        public string? Email { get; set; }
+        public string? Senha { get; set; }
     }
 }
