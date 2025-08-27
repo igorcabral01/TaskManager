@@ -1,27 +1,24 @@
 using RabbitMQ.Client;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TaskManager.Infrastructure
 {
     public interface IRabbitMqPublisher
     {
-        void Publish(string queue, string message);
+        Task PublishAsync(string queue, string message);
     }
 
     public class RabbitMqPublisher : IRabbitMqPublisher
     {
-        private readonly RabbitMqConnectionFactory _connectionFactory;
-        public RabbitMqPublisher(RabbitMqConnectionFactory connectionFactory)
+        public async Task PublishAsync(string queue, string message)
         {
-            _connectionFactory = connectionFactory;
-        }
-        public void Publish(string queue, string message)
-        {
-            using var connection = _connectionFactory.CreateConnection();
-            using var channel = connection.CreateModel();
-            channel.QueueDeclare(queue: queue, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            var factory = new ConnectionFactory { HostName = "localhost" };
+            await using var connection = await factory.CreateConnectionAsync();
+            await using var channel = await connection.CreateChannelAsync();
+            await channel.QueueDeclareAsync(queue: queue, durable: false, exclusive: false, autoDelete: false, arguments: null);
             var body = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(exchange: "", routingKey: queue, basicProperties: null, body: body);
+            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: queue, body: body);
         }
     }
 }

@@ -1,5 +1,5 @@
 using RabbitMQ.Client;
-using System;
+using System.Threading.Tasks;
 
 
 namespace TaskManager.Infrastructure
@@ -12,31 +12,17 @@ namespace TaskManager.Infrastructure
         public int Port { get; set; } = 5672;
     }
 
-    public class RabbitMqConnectionFactory
+    public static class RabbitMqFactory
     {
-        private readonly RabbitMqConfig _config;
-        public RabbitMqConnectionFactory(RabbitMqConfig config)
+        public static ConnectionFactory Create(RabbitMqConfig config)
         {
-            _config = config;
-        }
-        public IConnection CreateConnection()
-        {
-            try
+            return new ConnectionFactory
             {
-                var factory = new ConnectionFactory()
-                {
-                    HostName = _config.HostName,
-                    UserName = _config.UserName,
-                    Password = _config.Password,
-                    Port = _config.Port
-                };
-                // O método correto é sem parâmetros
-                return factory.CreateConnection();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erro ao conectar ao RabbitMQ: {ex.Message}", ex);
-            }
+                HostName = config.HostName,
+                UserName = config.UserName,
+                Password = config.Password,
+                Port = config.Port
+            };
         }
     }
 }

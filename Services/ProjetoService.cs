@@ -1,5 +1,9 @@
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Infrastructure;
 using TaskManager.Models;
 
 namespace TaskManager.Services
@@ -43,6 +47,11 @@ namespace TaskManager.Services
             }
             await _context.Projetos.AddAsync(projeto);
             await _context.SaveChangesAsync();
+
+            // Envia para outra API via RabbitMQ
+            var publisher = new RabbitMqPublisher();
+            var json = JsonSerializer.Serialize(projeto);
+            await publisher.PublishAsync("projeto-criado", json);
 
             return projeto;
         }
