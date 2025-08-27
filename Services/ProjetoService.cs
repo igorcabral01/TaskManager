@@ -11,10 +11,12 @@ namespace TaskManager.Services
     public class ProjetoService : Interfaces.IProjetoService
     {
         private readonly AppDbContext _context;
+        private readonly IRabbitMqPublisher _rabbitMqPublisher;
 
-        public ProjetoService(AppDbContext context)
+        public ProjetoService(AppDbContext context, IRabbitMqPublisher rabbitMqPublisher)
         {
             _context = context;
+            _rabbitMqPublisher = rabbitMqPublisher;
         }
 
         public async Task<List<Projeto>> ObterTodosProjetosAsync()
@@ -40,18 +42,28 @@ namespace TaskManager.Services
                 {
                     throw new InvalidOperationException("Já existe um projeto com este nome.");
                 }
+
+                // Valida se o UsuarioId existe
+                var usuarioExiste = await _context.Usuarios.AnyAsync(u => u.UsuarioId == projeto.UsuarioId);
+                if (!usuarioExiste)
+                {
+                    throw new InvalidOperationException("O UsuarioId informado não existe.");
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao verificar existência do projeto: " + ex.Message);
+                throw new Exception("Erro ao verificar existência do projeto/usuário: " + ex.Message);
             }
             await _context.Projetos.AddAsync(projeto);
             await _context.SaveChangesAsync();
 
-            // Envia para outra API via RabbitMQ
-            var publisher = new RabbitMqPublisher();
-            var json = JsonSerializer.Serialize(projeto);
-            await publisher.PublishAsync("projeto-criado", json);
+            var mensagem = new
+            {
+                Id = projeto.ProjetoId,
+                Nome = projeto.Nome,
+            };
+            var json = JsonSerializer.Serialize(mensagem);
+            await _rabbitMqPublisher.PublishAsync("projeto-criado", json);
 
             return projeto;
         }

@@ -57,7 +57,6 @@ builder.Services.Scan(scan => scan
 
 var rabbitConfig = builder.Configuration.GetSection("RabbitMq").Get<RabbitMqConfig>() ?? new RabbitMqConfig();
 builder.Services.AddSingleton(rabbitConfig);
-builder.Services.AddSingleton<RabbitMqConnectionFactory>();
 builder.Services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
 
 var app = builder.Build();

@@ -5,7 +5,7 @@ namespace TaskManager.Models
 {
     public class Usuario : EntidadeBase
     {
-        public Guid UsuarioId { get; set; }
+        public Guid UsuarioId { get; set; } = Guid.NewGuid();
         [MaxLength(255)]
         public string? PrimeiroNome { get; set; }
         [MaxLength(255)]

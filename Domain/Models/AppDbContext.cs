@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Domain.Models;
 
 namespace TaskManager.Models
 {
@@ -11,6 +12,7 @@ namespace TaskManager.Models
         public DbSet<Tarefa> Tarefas { get; set; }
         public DbSet<ProjetoUsuario> ProjetosUsuarios { get; set; }
         public DbSet<Notificacao> Notificacoes { get; set; }
+        public DbSet<ConfirmacaoProjeto> ConfirmacoesProjeto { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tarefa>()
