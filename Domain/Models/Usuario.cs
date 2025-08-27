@@ -17,7 +17,7 @@ namespace TaskManager.Models
         public UserRole Perfil { get; set; }
         [MaxLength(255)]
         public string? UrlImagemPerfil { get; set; }
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true;
         public DateTime? UltimoLogin { get; set; }
 
         public string NomeCompleto => $"{PrimeiroNome} {UltimoNome}";

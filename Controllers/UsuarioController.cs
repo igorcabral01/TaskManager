@@ -5,10 +5,12 @@ using TaskManager.Validations;
 using TaskManager.Application.DTOs.User;
 using AutoMapper;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManager.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
@@ -24,6 +26,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> ObterTodos()
         {
             var usuarios = await _usuarioService.ObterTodosAsync();
@@ -45,6 +48,9 @@ namespace TaskManager.Controllers
         public async Task<IActionResult> Criar([FromBody] UsuarioDto dto)
         {
             var usuario = _mapper.Map<Usuario>(dto);
+            if (!string.IsNullOrWhiteSpace(dto.Senha))
+                usuario.SenhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha);
+
             var validacao = _validator.Validate(usuario);
             if (!validacao.IsValid)
                 return BadRequest(validacao.Errors);

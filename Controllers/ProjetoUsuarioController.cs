@@ -12,9 +12,9 @@ namespace TaskManager.Controllers
     [Authorize]
     public class ProjetoUsuarioController : ControllerBase
     {
-        private readonly IProjetoUsuarioService _service;
+        private readonly ProjetoUsuarioService _service;
 
-        public ProjetoUsuarioController(IProjetoUsuarioService service)
+        public ProjetoUsuarioController(ProjetoUsuarioService service)
         {
             _service = service;
         }
