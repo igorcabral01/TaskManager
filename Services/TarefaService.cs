@@ -4,7 +4,7 @@ using TaskManager.Models;
 namespace TaskManager.Services
 {
 
-    public class TarefaService : Interfaces.ITarefaService
+    public class TarefaService
     {
         private readonly AppDbContext _context;
 

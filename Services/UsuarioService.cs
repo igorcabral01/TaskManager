@@ -3,7 +3,7 @@ using TaskManager.Models;
 
 namespace TaskManager.Services
 {
-    public class UsuarioService : Interfaces.IUsuarioService
+    public class UsuarioService 
     {
         private readonly AppDbContext _context;
 

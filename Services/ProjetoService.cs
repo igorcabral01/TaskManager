@@ -8,7 +8,7 @@ using TaskManager.Models;
 
 namespace TaskManager.Services
 {
-    public class ProjetoService : Interfaces.IProjetoService
+    public class ProjetoService
     {
         private readonly AppDbContext _context;
         private readonly IRabbitMqPublisher _rabbitMqPublisher;

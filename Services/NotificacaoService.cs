@@ -3,7 +3,7 @@ using TaskManager.Models;
 
 namespace TaskManager.Services
 {
-    public class NotificacaoService : Interfaces.INotificacaoService
+    public class NotificacaoService 
     {
         private readonly AppDbContext _context;
 

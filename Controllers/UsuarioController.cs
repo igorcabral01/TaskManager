@@ -6,11 +6,11 @@ using TaskManager.Application.DTOs.User;
 using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using TaskManager.Domain.Models.DTOs.Usuario;
 
 namespace TaskManager.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace TaskManager.Controllers
         public async Task<IActionResult> ObterTodos()
         {
             var usuarios = await _usuarioService.ObterTodosAsync();
-            var usuariosDto = _mapper.Map<List<UsuarioDto>>(usuarios);
+            var usuariosDto = _mapper.Map<List<UsuarioDtoTodos>>(usuarios);
             return Ok(usuariosDto);
         }
 

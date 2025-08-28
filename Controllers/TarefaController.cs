@@ -23,27 +23,28 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Criar([FromBody] TarefaDto tarefa)
+        public async Task<IActionResult> Criar([FromBody] TarefaDto tarefa)
         {
-            var tarefas = _mapper.Map<Tarefa>(tarefa);
-            var validacao = _validator.Validate(tarefas);
+            var entidade = _mapper.Map<Tarefa>(tarefa);
+            var validacao = _validator.Validate(entidade);
             if (!validacao.IsValid)
                 return BadRequest(validacao.Errors);
 
-            var novaTarefa = _tarefaService.CriarTarefaAsync(tarefas);
-            return Ok(novaTarefa);
+            var novaTarefa = await _tarefaService.CriarTarefaAsync(entidade);
+            var tarefaDto = _mapper.Map<TarefaDto>(novaTarefa);
+            return Ok(tarefaDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Atualizar(Guid id, [FromBody] TarefaDto tarefa)
+        public async Task<IActionResult> Atualizar(Guid id, [FromBody] TarefaDto tarefa)
         {
-            var tarefas = _mapper.Map<Tarefa>(tarefa);
-            var validacao = _validator.Validate(tarefas);
+            var entidade = _mapper.Map<Tarefa>(tarefa);
+            var validacao = _validator.Validate(entidade);
             if (!validacao.IsValid)
                 return BadRequest(validacao.Errors);
 
-            var tarefaAtualizada = _tarefaService.AtualizarTarefaAsync(id,tarefas);
-            return Ok(tarefaAtualizada);
+            await _tarefaService.AtualizarTarefaAsync(id, entidade);
+            return Ok();
         }
     }
 }

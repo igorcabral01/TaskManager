@@ -11,8 +11,8 @@ namespace TaskManager.Models
         public string? Descricao { get; set; }
         public TaskManager.Enums.TaskStatus Status { get; set; }
         public TaskPriority Prioridade { get; set; }
-        public DateTime? DataVencimento { get; set; }
-        public DateTime? DataConclusao { get; set; }
+        public DateTime? DataVencimento { get; set; } = DateTime.Today;
+        public DateTime? DataConclusao { get; set; } = DateTime.Today;
         public Guid ProjetoId { get; set; }
         public Guid? AtribuidaParaId { get; set; }
         public Guid CriadaPorId { get; set; }
